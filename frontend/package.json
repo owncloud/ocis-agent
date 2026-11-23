@@ -20,14 +20,14 @@
     "@ownclouders/extension-sdk": "12.5.0",
     "@ownclouders/web-client": "12.5.0",
     "@ownclouders/web-pkg": "12.5.0",
-    "@vue/test-utils": "2.5.1",
+    "@vue/test-utils": "2.6.0",
     "happy-dom": "21.0.4",
     "pinia": "^3.0.4",
     "typescript": "5.9.3",
     "vite": "7.3.5",
-    "vitest": "5.1.0",
+    "vitest": "5.1.1",
     "vue": "3.5.45",
-    "vue-router": "^5.5.0",
+    "vue-router": "^5.5.1",
     "vue-tsc": "3.3.14",
     "vue3-gettext": "^2.4.0"
   }
