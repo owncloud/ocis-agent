@@ -26,11 +26,11 @@
 
 services:
   ocis-agent:
-    # docker build -t ocis-agent:dev . (from the repository root). For
-    # reproducible builds, pin the Dockerfile's base images by digest, e.g.
-    # FROM alpine:3.22@sha256:<digest> (docker buildx imagetools inspect alpine:3.22
-    # shows it), and reference a pushed image here by digest too.
-    image: ocis-agent:dev
+    # the released image from Docker Hub: pin a version (X.Y.Z), or a digest
+    # for the exact bytes, instead of latest. To run a local build instead:
+    # docker build -t ocis-agent:dev . (from the repository root) and
+    # image: ocis-agent:dev
+    image: owncloud/ocis-agent:latest
     restart: unless-stopped
     # a minimal init as PID 1 forwards SIGTERM and reaps child processes
     init: true
