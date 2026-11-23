@@ -8,8 +8,9 @@ extension (`frontend/`).
 - `backend/` Go module `github.com/owncloud/ocis-agent/backend`
 - `frontend/` `web-app-agent`, the oCIS Web extension (Vue 3 + TypeScript)
 - `docker-compose.yml` + `dev/` dev stack (oCIS + TLS proxy), started from the repo root
-- `Dockerfile` + `deploy/docker-compose.example.yml` container image of the sidecar and an example
+- `Dockerfile` + `deploy/docker-compose.example.yml` local build of the sidecar image and an example
   deployment next to an existing oCIS
+- `scripts/release` + `cliff.toml` cut a release: a signed tag whose message holds the release notes
 
 ## Documentation
 
@@ -19,7 +20,13 @@ extension (`frontend/`).
 
 ## Container image
 
-    docker build -t ocis-agent:dev .
+    docker pull owncloud/ocis-agent:latest   # pin a version (X.Y.Z) in production
+
+Released images are published to Docker Hub as
+[`owncloud/ocis-agent`](https://hub.docker.com/r/owncloud/ocis-agent) by
+[owncloud-docker/ocis-agent](https://github.com/owncloud-docker/ocis-agent), which builds every
+signed release tag from source. This repository publishes no images; `docker build -t ocis-agent:dev .`
+builds one locally from the `Dockerfile`.
 
 The image holds the static binary only and runs as uid 10001 with its database in the `/data`
 volume, so the root filesystem can be read-only. All settings come from the environment;
@@ -27,6 +34,14 @@ volume, so the root filesystem can be read-only. All settings come from the envi
 an image). Port 9300 serves `/agent-api/` (health check: `GET /agent-api/healthz`), port 9301 only
 `/healthz` and `/readyz` for probes. Give the container a stop grace period of at least
 `AGENT_SHUTDOWN_DRAIN` + 15s (45s with the defaults). See `deploy/docker-compose.example.yml`.
+
+## Releasing
+
+`scripts/release [--dry-run] [vX.Y.Z]` (needs `git-cliff` and `gh`) suggests the next version
+from the Conventional Commits since the last tag, and creates and pushes a signed, annotated tag
+whose message holds the release notes. The `Release` workflow checks the signature and publishes the
+GitHub release; owncloud-docker/ocis-agent picks the tag up and publishes the image (plain
+`vX.Y.Z` tags only).
 
 ## Contributing
 

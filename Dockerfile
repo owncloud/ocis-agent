@@ -1,6 +1,9 @@
 # syntax=docker/dockerfile:1
 #
-# The ocis-agent sidecar. Build from the repository root:
+# The ocis-agent sidecar, for local builds. Released images are built from
+# source by owncloud-docker/ocis-agent and published to Docker Hub as
+# owncloud/ocis-agent; keep its image contract (uid, /data, ports, health
+# check, entrypoint) in step with this file. Build from the repository root:
 #
 #	docker build -t ocis-agent:dev .
 #

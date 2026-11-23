@@ -18,7 +18,11 @@ everything a contributor needs.
   The host port is `OCIS_DEV_PORT` (default 9200, set in `.env`), so the stack is at
   `https://localhost:$OCIS_DEV_PORT`. Changing it after the first start needs `docker compose down -v`.
   Demo user `einstein` / `relativity`; the extension manifest is served at `/assets/apps/agent/manifest.json`.
-- `Dockerfile` (sidecar image: static binary, uid 10001, `/data` volume, read-only root works, health check on
+- `scripts/release` + `cliff.toml` + `.github/workflows/release.yml`: `scripts/release` pushes a signed, annotated
+  `vX.Y.Z` tag with git-cliff notes in its message; the workflow verifies the signature and publishes the GitHub release.
+  This repository publishes no container images: owncloud-docker/ocis-agent builds `owncloud/ocis-agent` from the signed
+  tags (keep its Dockerfile's image contract in step with ours)
+- `Dockerfile` (local sidecar image build: static binary, uid 10001, `/data` volume, read-only root works, health check on
   `:9300/agent-api/healthz`) and `deploy/docker-compose.example.yml` (sidecar beside an existing oCIS; keep its
   `stop_grace_period` >= `AGENT_SHUTDOWN_DRAIN` + 15s and the master key in a 0600 env_file)
 

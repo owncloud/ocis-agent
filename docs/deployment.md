@@ -103,8 +103,14 @@ The worker role needs an OpenAI-compatible chat-completions endpoint with tool c
 ### Container image
 
 ```
-docker build -t ocis-agent:dev .
+docker pull owncloud/ocis-agent:X.Y.Z
 ```
+
+Released images are published to Docker Hub as `owncloud/ocis-agent` (`X.Y.Z`, `X.Y.Z-YYYYMMDD` for
+each rebuild, and `latest`) by [owncloud-docker/ocis-agent](https://github.com/owncloud-docker/ocis-agent),
+which builds every signed release tag from source and rebuilds the newest one for base-image fixes.
+Pin a version in production. To build an image yourself from this repository:
+`docker build -t ocis-agent:dev .`
 
 The image is a small Alpine base (busybox `wget` serves the health check) with the static binary;
 it holds no configuration or secrets and runs as uid/gid 10001 with its database in the `/data`
